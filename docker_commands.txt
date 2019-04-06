@@ -1,0 +1,67 @@
+cd ECE590
+docker build -t cppenv cppenv
+docker run -v $PWD/hw_6:/source -it cppenv bash
+
+g++ -c fraction.c -std=c++11
+g++ -c unit_tests.c -std=c++11
+g++ -c main.c -std=c++11
+g++ -o test *.o -lgtest -lpthread
+./test
+
+
+root@cppenv:/source/fractions/bin> cd /source/fractions/
+
+
+root@cppenv:/source/fractions> make
+root@cppenv:/source/fractions> cd bin
+root@cppenv:/source/fractions/bin> ./test
+
+
+
+JSON
+
+cd cppenv-json
+docker build -t cppenv-json .
+cd ..
+docker run -v $PWD/hw_9:/source -it cppenv-json bash
+
+
+
+HTTP
+
+Server
+cd cppenv-http
+docker build -t cppenv-http .
+cd ..
+docker run -v $PWD/hw_9:/source -it cppenv-http bash
+
+OR
+
+cd hw_9
+docker ps -a
+docker rm ECEP590-server (docker rm $(docker ps -a -q))
+
+docker run --name ECEP590-server -v $PWD:/source -it klavins/ecep520:cppenv-http bash
+make
+./test/bin/temperature_server
+
+Client
+cd hw_9
+docker run --name client --link ECEP590-server -v $PWD:/source -it klavins/ecep520:cppenv-http bash
+./test/bin/p1_test (or ./test/bin/p2_test)
+
+
+
+project
+docker build -t myelma .
+    docker run -v $PWD:/source -it myelma bash
+    make
+    examples/bin/basic
+
+    ps waux
+
+
+To run server in background
+run server
+Ctrl+Z
+bg 
